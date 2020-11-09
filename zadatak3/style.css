@@ -3,17 +3,12 @@
         display: block;
         margin-bottom: 5px;
     }
-    
-    div.red > label {
-        text-align: right;    
+
+    form {
+        display: table;
+        border-spacing: 0px;
     }
     
-}
-
-
-form {
-    display: table;
-    border-spacing: 5px;
 }
 
 
@@ -21,6 +16,11 @@ form {
     div.red {
         display: table-row;
     }    
+
+    form {
+        display: table;
+        border-spacing: 5px;
+    }
 }
 select, input, label {
     display: table-cell;

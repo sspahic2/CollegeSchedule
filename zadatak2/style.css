@@ -23,6 +23,9 @@
     }
 }
 
+body {
+    margin: 0px;
+}
 
 body, .title {
     background-color: #b3c8dd;
