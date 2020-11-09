@@ -29,7 +29,7 @@
     }
 }
 
-@media only screen and (min-width: 602px) {
+@media only screen and (min-width: 601px) {
     table {
         margin: auto;
         empty-cells: show;
