@@ -1,8 +1,41 @@
-table {
-    margin: auto;
-    empty-cells: show;
-    border-spacing: 0px;
-    border-collapse: collapse;
+@media only screen and (max-width: 600px) {
+    tr:first-child > th {
+        display: none;
+    }
+    
+    table {
+        margin: auto;
+    }
+
+    td {
+        display: none;
+    }
+
+    th.dan, td.isprekidano_lijevo, td.isprekidano_desno, td.puno, td.zauzeto {
+        display: block;
+    }
+
+    th.dan {
+        text-align: left;
+        border: none;
+    }
+
+    td.isprekidano_desno, td.isprekidano_lijevo, td.puno, td.zauzeto {
+        width: 100%;
+        float: left;
+        margin-bottom: 10px;
+        border-right: 1px solid;
+        border-left: 1px solid;
+    }
+}
+
+@media only screen and (min-width: 602px) {
+    table {
+        margin: auto;
+        empty-cells: show;
+        border-spacing: 0px;
+        border-collapse: collapse;
+    }
 }
 
 .dan {
