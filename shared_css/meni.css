@@ -1,0 +1,19 @@
+div.meni > ul > li {
+    display: inline;
+}
+
+div.meni {
+    background: #BEB7A4;
+}
+
+div.meni > ul > li > a:hover {
+    background: #AF5B5B;
+}
+
+div.meni > ul > li > a:link {
+    color: #183059;
+}
+
+div.meni > ul > li > a:visited {
+    color: #F4D6CC;
+}

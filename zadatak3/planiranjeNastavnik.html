@@ -5,18 +5,29 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
         <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="../shared_css/meni.css">
         <title>Planiranje</title>
     </head>
 
     <body>
+
+        <div class="meni">
+            <ul>
+                <li><a href="../zadatak1/raspored.html">Raspored</a></li>
+                <li><a href="../zadatak2/aktivnost.html">Aktivnosti</a></li>
+                <li><a href="../zadatak3/planiranjeNastavnik.html">Nastavnik</a></li>
+                <li><a href="../zadatak4/podaciStudent.html">Student</a></li>
+            </ul>
+        </div>
+
         <div class="container">
             <form>
-                <div>
+                <div class="red">
                     <label for="naziv">Naziv predmeta: </label>
                         <input type="text" name="naziv" id="naziv">
                 </div>
 
-                <div>
+                <div class="red">
                     <label for="tip">Tip: </label>
                         <select id="tip">
                             <option value="predavanje">Predavanje</option>
@@ -24,17 +35,17 @@
                         </select>
                 </div>
 
-                <div>
+                <div class="red">
                     <label for="pocetak">Vrijeme po&ccaron;etka: </label>
                         <input type="time" name="pocetak" id="pocetak">
                 </div>
 
-                <div>
+                <div class="red">
                     <label for="kraj">Vrijeme kraja: </label>
                         <input type="time" name="kraj" id="kraj">
                 </div>
 
-                <div>
+                <div class="red">
                     <label for="dan">Dan: </label>
                         <select name="dan" id="dan">
                             <option value="ponedjeljak">Ponedjeljak</option>
