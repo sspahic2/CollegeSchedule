@@ -1,0 +1,73 @@
+@media only screen and (max-width: 600px) {
+    tr:first-child > th {
+        display: none;
+    }
+    
+    table {
+        margin: auto;
+    }
+
+    td {
+        display: none;
+    }
+
+    td.zauzeto {
+        display: block;
+    }
+
+    th.dan {
+        text-align: left;
+        border: none;
+    }
+
+    td.zauzeto {
+        width: 100%;
+        float: left;
+        margin-bottom: 10px;
+        border-right: 1px solid;
+        border-left: 1px solid;
+    }
+}
+
+@media only screen and (min-width: 601px) {
+    table {
+        margin: auto;
+        empty-cells: show;
+        border-spacing: 0px;
+        border-collapse: collapse;
+    }
+}
+
+.dan {
+    padding-right: 10px;
+    font-size: large;
+    font-family: monospace;
+}
+
+td {
+    width: 15px;
+    height: 50px;
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+    text-align: center;
+    background: #e6e6e6;
+}
+
+th {
+    text-align: right;
+    font-family: sans-serif;
+}
+
+td.zauzeto, div.tekst  {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    vertical-align: top;
+}
+
+td.zauzeto {
+    background: #dee7f0;
+}
+
+div.tekst, th {
+    font-weight: normal;
+    font-size: x-small;
+}
