@@ -22,12 +22,12 @@ function pozovi() {
     dodajAktivnost(okvir1,"RMA","vježbe",20,22,"Utorak");
     dodajAktivnost(okvir1,"OI","predavanje",11,22,"Srijeda");
 
-    dodajAktivnost(okvir1,"IM1","ispit",11,13,"Petak");
-    dodajAktivnost(okvir1,"IM2","ispit",13,15,"Petak");
-    dodajAktivnost(okvir1,"IM3","ispit",15,17,"Petak");
-    dodajAktivnost(okvir1,"DM","ispit",17,19,"Petak");
-    dodajAktivnost(okvir1,"RPR","ispit",19,21,"Petak");
     dodajAktivnost(okvir1,"","pauza",21,21.5,"Petak");
+    dodajAktivnost(okvir1,"IM1","ispit",11,13,"Petak");
+    dodajAktivnost(okvir1,"DM","ispit",17,19,"Petak");
+    dodajAktivnost(okvir1,"IM2","ispit",13,15,"Petak");
     dodajAktivnost(okvir1,"RA","testić",21.5,22,"Petak");
+    dodajAktivnost(okvir1,"IM3","ispit",15,17,"Petak");
+    dodajAktivnost(okvir1,"RPR","ispit",19,21,"Petak");
 
 }
