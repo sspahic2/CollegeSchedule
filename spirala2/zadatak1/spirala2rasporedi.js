@@ -1,7 +1,7 @@
 function pozovi() {
     var okvir = document.getElementById("container1");
     iscrtajRaspored(okvir, ["Ponedjeljak","Utorak","Srijeda","Četvrtak","Petak"], 8, 21);
-    dodajAktivnost(okvir,"WT","predavanje",9,12,"Ponedjeljak");
+    dodajAktivnost(okvir,"WT","predavanje",10,12,"Ponedjeljak");
     dodajAktivnost(okvir,"WT","vježbe",12,13.5,"Ponedjeljak");
     dodajAktivnost(okvir,"RMA","predavanje",14,17,"Ponedjeljak");
     dodajAktivnost(okvir,"RMA","vježbe",12.5,14,"Utorak");
@@ -22,9 +22,9 @@ function pozovi() {
     dodajAktivnost(okvir1,"RMA","vježbe",20,22,"Utorak");
     dodajAktivnost(okvir1,"OI","predavanje",11,22,"Srijeda");
 
-    dodajAktivnost(okvir1,"","pauza",21,21.5,"Petak");
+    dodajAktivnost(okvir1,"","pauza",21,21.5,"SPetak");
     dodajAktivnost(okvir1,"IM1","ispit",11,13,"Petak");
-    dodajAktivnost(okvir1,"DM","ispit",17,19,"Petak");
+    dodajAktivnost(okvir1,"DM","ispit",16,19,"Petak");
     dodajAktivnost(okvir1,"IM2","ispit",13,15,"Petak");
     dodajAktivnost(okvir1,"RA","testić",21.5,22,"Petak");
     dodajAktivnost(okvir1,"IM3","ispit",15,17,"Petak");
