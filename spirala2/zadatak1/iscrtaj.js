@@ -1,17 +1,18 @@
 const vremena = [0, 2, 4, 6, 8, 10, 12, 15, 17, 19, 21, 23];
-var spaseniDani = [];
 
 function iscrtajRaspored(div, dani, satPocetak, satKraj) {
 
-    var prviRed;
+    if(div == undefined) {
+        alert("Greška. Div nije kreiran!");
+        return;
+    }
 
     if(satPocetak >= satKraj || provjeriCjelobrojnost(satPocetak, satKraj)) {
         let text = document.createTextNode("Greška");
         div.appendChild(text);
         return;
     }
-
-    spaseniDani = dani;
+    var prviRed;
 
     var table = document.createElement("table");
     table.setAttribute("id", "tabela");
@@ -38,7 +39,7 @@ function iscrtajRaspored(div, dani, satPocetak, satKraj) {
     table.appendChild(grupa);
 
     let red = document.createElement("tr");
-    for(let i = satPocetak; i < (satKraj-satPocetak)*2; i+=0.5) {
+    for(let i = satPocetak; i < satKraj; i+=0.5) {
         let headerSat = document.createElement("th");
         if(headerVrijemeNiz.includes(i)) {
             headerSat.setAttribute("colspan", "2");
@@ -77,27 +78,28 @@ function iscrtajRaspored(div, dani, satPocetak, satKraj) {
 }
 
 function dodajAktivnost(raspored, naziv, tip, vrijemePocetak, vrijemeKraj, dan) {
-    if(raspored == null || raspored.firstChild == null) {
+    if(raspored == null || raspored.firstChild == null ) {
         alert("Greška - raspored nije kreiran");
         return;
     }
+    var tabela = document.getElementById(raspored.getAttribute("id")).firstChild.nextSibling;
+    let x = indeksReda(dan, tabela);
+    let duz = skontajDuzinu(x, tabela);
 
-    if(!Number.isInteger(vrijemePocetak/0.5) || !spaseniDani.includes(dan) 
-        || !Number.isInteger(vrijemeKraj/0.5) || vrijemePocetak >= vrijemeKraj) {
+    let test = skontajPocetak(tabela) + duz*0.5;
+    if(!Number.isInteger(vrijemePocetak/0.5) || x < 0
+        || !Number.isInteger(vrijemeKraj/0.5) || vrijemePocetak >= vrijemeKraj || skontajPocetak(tabela)>vrijemePocetak
+        || test < vrijemeKraj) {
         alert("Greška - u rasporedu ne postoji dan ili vrijeme u kojem pokušavate dodati termin");
+        return;
     }
-    let x = spaseniDani.indexOf(dan)+1;
-    let duz = skontajDuzinu(x);
-    let pocetakSati = skontajPocetak();
-    let pocetakIndeks = skontajPocetakIndeks();
-    if(pocetakIndeks != 0) {
-        pocetakSati--;
-    }
-    let red = document.getElementById("tabela").rows[x].cells;
+
+    let pocetakSati = skontajPocetak(tabela);
+    let red = tabela.rows[x].cells;
+
     for(let i = 1; i < duz; i++) {
         if(pocetakSati == vrijemePocetak) {
             let celija = red[i];
-            console.log(i);
             if(celija.className != "") {
                 alert("Greška - već postoji termin u rasporedu u zadanom vremenu");
                     return;
@@ -106,16 +108,46 @@ function dodajAktivnost(raspored, naziv, tip, vrijemePocetak, vrijemeKraj, dan) 
             celija.classList.add("zauzeto");
         
             celija.setAttribute("colspan", ((vrijemeKraj - vrijemePocetak)*2).toString());
-            let text = document.createTextNode(naziv + " \n " + tip);
+            let text = document.createTextNode(naziv);
             celija.appendChild(text);
+
+            let pomocniDiv = document.createElement("div");
+            pomocniDiv.setAttribute("class", "tekst");
+            text = document.createTextNode(tip);
+            pomocniDiv.appendChild(text);
+            celija.appendChild(pomocniDiv);
+
             let duzina = red.length;
-            for(let j = duzina-1; j > duzina - (vrijemeKraj - vrijemePocetak)*2;j--){
-                console.log(j);
-                document.getElementById("tabela").rows[x].cells[j].remove();
-            }
-            break;
+            let zaObrisati = (vrijemeKraj - vrijemePocetak)*2-1;
+            // if(i == duzina-zaObrisati-1) {
+                i += zaObrisati;
+                while(zaObrisati > 0) {
+                    let c = red[i];
+                    
+                    if(c.className == "") {
+                        c.remove();
+                        zaObrisati--;
+                    }
+                    i--;
+                }
+                break;
+            // }
+            // i++;
+            // while(zaObrisati > 0) {
+            //     let ce = red[i];
+            //     if(ce.className == "") {
+            //         ce.remove();
+            //         zaObrisati--;
+            //     }
+            //     i++;
+            // }
+            // break;
+
+            // for(let j = duzina-1; j > duzina - (vrijemeKraj - vrijemePocetak)*2;j--){
+            //     tabela.rows[x].cells[j].remove();
+            // }
+            // break;
         }
-        //i += red[i].getAttribute("colspan") != null ? red[i].getAttribute("colspan") - 1 : 0;
         pocetakSati +=  red[i].getAttribute("colspan") != null ? red[i].getAttribute("colspan")/2 : 0.5;
     }
 }
@@ -124,10 +156,10 @@ function provjeriCjelobrojnost(broj1, broj2) {
     return !(Number.isInteger(broj1) && Number.isInteger(broj2))
 }
 
-function skontajDuzinu(red) {
+function skontajDuzinu(red, tabela) {
     let velicina = 0;
-    for(let i = 0; i < document.getElementById("tabela").rows[red].cells.length; i++) {
-        let celija = document.getElementById("tabela").rows[red].cells[i];
+    for(let i = 0; i < tabela.rows[red].cells.length; i++) {
+        let celija = tabela.rows[red].cells[i];
         velicina++;
         if(celija.className !="" 
         && celija.className !="dan") {
@@ -137,15 +169,18 @@ function skontajDuzinu(red) {
     return velicina;
 }
 
-function skontajPocetak() {
+function skontajPocetak(tabela) {
     let pocetak = -1;
 
-    let prviRed = document.getElementById("tabela").rows[0].cells;
+    let prviRed = tabela.rows[0].cells;
 
     for(let i = 0; i < prviRed.length; i++) {
         if(prviRed[i].getAttribute("colspan") != null) {
             let text = prviRed[i].innerHTML;
             pocetak = parseInt(text.substr(0,2)[0] == "0" ? text.substr(0,2)[1] : text.substr(0,2));
+            if(i > 0) {
+                pocetak--;
+            }
             break; 
         }
     }
@@ -157,21 +192,14 @@ function skontajPocetak() {
     return pocetak;
 }
 
-function skontajPocetakIndeks() {
-    let indeks = -1;
+function indeksReda(dan, tabela) {
+    var indeks = -1;
 
-    let prviRed = document.getElementById("tabela").rows[0].cells;
-
-    for(let i = 0; i < prviRed.length; i++) {
-        if(prviRed[i].getAttribute("colspan") != null) {
-            indeks=i;
-            break; 
+    for(let i = 0; i < tabela.rows.length; i++) {
+        if(tabela.rows[i].cells[0].innerHTML == dan) {
+            indeks = i;
+            break;
         }
     }
-
-    if( indeks < 0) {
-        indeks = 0;
-    }
-
     return indeks;
 }

@@ -1,9 +1,9 @@
 @media only screen and (max-width: 600px) {
-    tr:first-child > th {
-        display: none;
+    tr.first > th {
+        display: none !important;
     }
     
-    table {
+    div > table {
         margin: auto;
     }
 
@@ -11,7 +11,7 @@
         display: none;
     }
 
-    td.zauzeto {
+    td.zauzeto, th.dan {
         display: block;
     }
 
