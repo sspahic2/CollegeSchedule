@@ -95,16 +95,43 @@ function dodajAktivnost(raspored, naziv, tip, vrijemePocetak, vrijemeKraj, dan) 
     }
 
     let pocetakSati = skontajPocetak(tabela);
+    let temp = pocetakSati;
     let red = tabela.rows[x].cells;
-
-    for(let i = 1; i < duz; i++) {
+    let duzina = red.length;
+    console.log(naziv + " " +tip);
+    for(let i = 1; i <= duzina; i++) {
+        console.log("Za i: " + i + " Vrijeme: " + pocetakSati);
         if(pocetakSati == vrijemePocetak) {
             let celija = red[i];
             if(celija.className != "") {
                 alert("Greška - već postoji termin u rasporedu u zadanom vremenu");
+                return;
+            }
+
+            let j = i;
+            while(pocetakSati < vrijemeKraj) {
+                celija = red[j];
+
+                if(celija.className != "") {
+                    alert("Greška - već postoji termin u rasporedu u zadanom vremenu");
                     return;
                 }
-        
+
+                pocetakSati += 0.5;
+                j++;
+            }
+            break;
+        }
+        if(red[i] != undefined) {
+            pocetakSati +=  red[i].getAttribute("colspan") != null ? red[i].getAttribute("colspan")/2 : 0.5;
+        }
+    }
+
+    pocetakSati = temp;
+
+    for(let i = 1; i < duz; i++) {
+        if(pocetakSati == vrijemePocetak) {
+            let celija = red[i];
             celija.classList.add("zauzeto");
         
             celija.setAttribute("colspan", ((vrijemeKraj - vrijemePocetak)*2).toString());
@@ -117,36 +144,15 @@ function dodajAktivnost(raspored, naziv, tip, vrijemePocetak, vrijemeKraj, dan) 
             pomocniDiv.appendChild(text);
             celija.appendChild(pomocniDiv);
 
-            let duzina = red.length;
             let zaObrisati = (vrijemeKraj - vrijemePocetak)*2-1;
-            // if(i == duzina-zaObrisati-1) {
                 i += zaObrisati;
                 while(zaObrisati > 0) {
                     let c = red[i];
-                    
-                    if(c.className == "") {
-                        c.remove();
-                        zaObrisati--;
-                    }
+                    c.remove();
+                    zaObrisati--;
                     i--;
                 }
                 break;
-            // }
-            // i++;
-            // while(zaObrisati > 0) {
-            //     let ce = red[i];
-            //     if(ce.className == "") {
-            //         ce.remove();
-            //         zaObrisati--;
-            //     }
-            //     i++;
-            // }
-            // break;
-
-            // for(let j = duzina-1; j > duzina - (vrijemeKraj - vrijemePocetak)*2;j--){
-            //     tabela.rows[x].cells[j].remove();
-            // }
-            // break;
         }
         pocetakSati +=  red[i].getAttribute("colspan") != null ? red[i].getAttribute("colspan")/2 : 0.5;
     }
