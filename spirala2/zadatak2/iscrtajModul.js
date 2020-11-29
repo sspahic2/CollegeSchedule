@@ -97,7 +97,6 @@ let Tabela = (function() {
             var tabela = document.getElementById(raspored.getAttribute("id")).getElementsByTagName("table")[0];
             if(tabela == undefined) {
                 tabela = document.getElementsByTagName("table")[document.getElementsByTagName("table").length - 1];
-                console.log(tabela);
             }
             let x = indeksReda(dan, tabela);
             //Provjera da li je unesen validan dan
@@ -107,10 +106,8 @@ let Tabela = (function() {
             }
         
             let duz = skontajDuzinu(x, tabela);
-            console.log("Stvarna duzina reda: " + duz);
             //Test predstavlja kranje vrijeme u prvom redu
             let test = skontajPocetak(tabela) + duz*0.5-0.5;
-            console.log(test);
             if(!Number.isInteger(vrijemePocetak/0.5)
                 || !Number.isInteger(vrijemeKraj/0.5) 
                     || vrijemePocetak >= vrijemeKraj 
@@ -122,7 +119,6 @@ let Tabela = (function() {
             }
         
             let pocetakSati = skontajPocetak(tabela);
-            console.log("Sati: " + pocetakSati);
             let temp = pocetakSati;
             let red = tabela.rows[x].cells;
             let duzina = red.length;
