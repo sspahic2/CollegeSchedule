@@ -55,6 +55,11 @@ let Tabela = (function() {
                 headerSat.appendChild(text);
                 i+=0.5;
             }
+            else {
+                let text =document.createTextNode(i);
+                headerSat.style.color="transparent";
+                headerSat.appendChild(text);
+            }
             red.appendChild(headerSat);
         }
         red.setAttribute("class", "first");
@@ -85,12 +90,15 @@ let Tabela = (function() {
     }
 
     var dodajAktivnost = function(raspored, naziv, tip, vrijemePocetak, vrijemeKraj, dan) {
-            if(raspored == null || raspored.firstChild == null ) {
+            if(raspored == null || raspored.firstChild == null || raspored.firstChild.nextSibling == null) {
                 alert("Greška - raspored nije kreiran");
                 return;
             }
-            var tabela = document.getElementById(raspored.getAttribute("id")).firstChild.nextSibling;
-        
+            var tabela = document.getElementById(raspored.getAttribute("id")).getElementsByTagName("table")[0];
+            if(tabela == undefined) {
+                tabela = document.getElementsByTagName("table")[document.getElementsByTagName("table").length - 1];
+                console.log(tabela);
+            }
             let x = indeksReda(dan, tabela);
             //Provjera da li je unesen validan dan
             if(x < 0) {
@@ -99,9 +107,10 @@ let Tabela = (function() {
             }
         
             let duz = skontajDuzinu(x, tabela);
-        
+            console.log("Stvarna duzina reda: " + duz);
             //Test predstavlja kranje vrijeme u prvom redu
-            let test = skontajPocetak(tabela) + duz*0.5;
+            let test = skontajPocetak(tabela) + duz*0.5-0.5;
+            console.log(test);
             if(!Number.isInteger(vrijemePocetak/0.5)
                 || !Number.isInteger(vrijemeKraj/0.5) 
                     || vrijemePocetak >= vrijemeKraj 
@@ -113,6 +122,7 @@ let Tabela = (function() {
             }
         
             let pocetakSati = skontajPocetak(tabela);
+            console.log("Sati: " + pocetakSati);
             let temp = pocetakSati;
             let red = tabela.rows[x].cells;
             let duzina = red.length;
@@ -218,7 +228,7 @@ let Tabela = (function() {
         }
         //U slucaju da je unesena obaveza za vrijeme izmedju 13 i 14
         if( pocetak < 0) {
-            pocetak = 13;
+            pocetak = parseInt(tabela.rows[0].cells[0].innerHTML);
         }
 
         return pocetak;
