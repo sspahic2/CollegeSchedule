@@ -89,8 +89,9 @@ describe('Tabela', function() {
             let okvir = document.getElementById("moća");
             Tabela.iscrtajRaspored(okvir, ["Ponedjeljak","Utorak","Srijeda","Četvrtak","Petak"], 2, 7);
             //Treba brzo pritisnuti ok na alertu, tacnije brze od 2s, kako bi test funkcionisao
-           
-        });
+            let bool = false;
+            assert.equal(bool, true, "Uzrokuje pad testa, jer i treba pasti");
+           });
 
         it('tabela se treba normalno kreirati', function() {
             let okvir = document.getElementById("mocha");
@@ -124,6 +125,77 @@ describe('Tabela', function() {
             }
             let vrijednost = okvir.innerHTML;
             assert.equal(vrijednost.substr(vrijednost.length-6, 6), 'Greška', "Treba ispisati grešku jer bi pravilan unos bio 0,23");
+        });
+    });
+    describe('dodajAktivnost()', function() {
+        it('Normalna aktivnost', function() {
+            let okvir = document.getElementById("mocha");
+            Tabela.dodajAktivnost(okvir, "WT", "predavanje", 9, 9.5, "Srijeda");
+        });
+
+        it('Pogresno unesen dan', function() {
+            let okvir = document.getElementById("mocha");
+            Tabela.dodajAktivnost(okvir, "WT", "predavanje", 9, 9.5, "Cetvrtak");
+            let bool = false;
+            assert.equal(bool, true, "Uzrokuje pad testa, jer i treba pasti");
+        });
+
+        it('Popunimo citav red', function() {
+            let okvir = document.getElementById("mocha");
+            Tabela.dodajAktivnost(okvir, "DM", "predavanje", 8, 21, "Ponedjeljak");
+        });
+
+        it('Termin je vec zauzet', function() {
+            let okvir = document.getElementById("mocha");
+            Tabela.dodajAktivnost(okvir, "RA", "predavanje", 13, 16, "Ponedjeljak");
+            let bool = false;
+            assert.equal(bool, true, "Uzrokuje pad testa, jer i treba pasti");
+        });
+
+        it('Pogresno uneseno vrijeme', function() {
+            let okvir = document.getElementById("mocha");
+            Tabela.dodajAktivnost(okvir, "DM", "vjezbe", 19, 21.5, "Utorak");
+            let bool = false;
+            assert.equal(bool, true, "Uzrokuje pad testa, jer i treba pasti");
+        });
+
+        it('Nasumicno popunimo termine', function() {
+            let okvir = document.getElementById("mocha");
+            Tabela.dodajAktivnost(okvir, "RMA", "predavanje", 9, 12, "Utorak");
+            Tabela.dodajAktivnost(okvir, "WT", "vjezbe", 15, 17, "Utorak");
+            Tabela.dodajAktivnost(okvir, "OOI", "predavanje", 12, 15, "Srijeda");
+            Tabela.dodajAktivnost(okvir, "LD", "vjezbe", 16, 17, "Srijeda");
+            Tabela.dodajAktivnost(okvir, "OS", "predavanje", 9, 12, "Petak");
+            Tabela.dodajAktivnost(okvir, "SP", "vjezbe", 18, 20, "Petak");
+            Tabela.dodajAktivnost(okvir, "VVS", "predavanje", 14, 16, "Petak");
+        });
+
+        it('Kraj vrijeme se poklapa sa terminom', function() {
+            let okvir = document.getElementById("mocha");
+            Tabela.dodajAktivnost(okvir, "RMA", "vjezbe", 10, 13, "Srijeda");
+            let bool = false;
+            assert.equal(bool, true, "Uzrokuje pad testa, jer i treba pasti");
+        });
+
+        it('Pocetak vrijeme se poklapa sa terminom', function() {
+            let okvir = document.getElementById("mocha");
+            Tabela.dodajAktivnost(okvir, "OOI", "vjezbe", 19, 21, "Petak");
+            let bool = false;
+            assert.equal(bool, true, "Uzrokuje pad testa, jer i treba pasti");
+        });
+
+        it('Pocetak i kraj se nalaze unutar rezervisanog termina', function() {
+            let okvir = document.getElementById("mocha");
+            Tabela.dodajAktivnost(okvir, "LD", "predavanje", 14, 17, "Ponedjeljak");
+            let bool = false;
+            assert.equal(bool, true, "Uzrokuje pad testa, jer i treba pasti");
+        });
+
+        it('Negativno uneseno vrijeme', function() {
+            let okvir = document.getElementById("mocha");
+            Tabela.dodajAktivnost(okvir, "VVS", "vjezbe", -16, 18, "Četvrtak");
+            let bool = false;
+            assert.equal(bool, true, "Uzrokuje pad testa, jer i treba pasti");
         });
     });
 });
