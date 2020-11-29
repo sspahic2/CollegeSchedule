@@ -7,7 +7,7 @@ function iscrtajRaspored(div, dani, satPocetak, satKraj) {
         return;
     }
 
-    if(satPocetak >= satKraj || provjeriCjelobrojnost(satPocetak, satKraj)) {
+    if(satPocetak >= satKraj || provjeriCjelobrojnost(satPocetak, satKraj) || satPocetak < 0 || satKraj < 0) {
         let text = document.createTextNode("Greška");
         div.appendChild(text);
         return;
@@ -127,6 +127,7 @@ function dodajAktivnost(raspored, naziv, tip, vrijemePocetak, vrijemeKraj, dan) 
                 break;
             }
             let j = i;
+            //Ako naidjemo na element koji ima klasu, onda je termin zauzet
             while(pocetakSati < vrijemeKraj) {
                 celija = red[j];
                 if(celija.className != "") {
@@ -138,6 +139,16 @@ function dodajAktivnost(raspored, naziv, tip, vrijemePocetak, vrijemeKraj, dan) 
                 pocetakSati += 0.5;
                 j++;
             }
+            break;
+        }
+        //Ako smo dosli do undefined, to znaci da smo prekoracili broj elemenata u redu
+        //Odnosno pocetni sat nije pronadjen, jer je termin zauzet, pa treba izbaciti alert
+        //Ovaj uslov je specificno pisan za slucaj kada npr. imamo zauzetost od 16 do 21
+        //A pokusavamo ubaciti ubaciti termin izmedju 17 i 18
+        //Pocetak vremena i kraj vremena se nalaze unutar zauzete celije
+        if(red[i] == undefined) {
+            alert("Greška - već postoji termin u rasporedu u zadanom vremenu");
+            greska = true;
             break;
         }
         //Treba uvecati sat za polovinu duzine obaveze ili za pola sata
