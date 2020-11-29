@@ -54,6 +54,14 @@ function iscrtajRaspored(div, dani, satPocetak, satKraj) {
             headerSat.appendChild(text);
             i+=0.5;
         }
+        else {
+            //Unosimo nevidljive brojeve u svaku celiju koja je slobodna
+            //Oduzima se 0.5 zbog prve celije koja je rezervisana radi dana u sedmici
+            //Pokriva slucaj kada nema sati u prvom redu
+            let text =document.createTextNode(i-0.5);
+            headerSat.style.color="transparent";
+            headerSat.appendChild(text);
+        }
         red.appendChild(headerSat);
     }
     red.setAttribute("class", "first");
@@ -100,7 +108,7 @@ function dodajAktivnost(raspored, naziv, tip, vrijemePocetak, vrijemeKraj, dan) 
     let duz = skontajDuzinu(x, tabela);
 
     //Test predstavlja kranje vrijeme u prvom redu
-    let test = skontajPocetak(tabela) + duz*0.5;
+    let test = skontajPocetak(tabela) + duz*0.5-0.5;
     if(!Number.isInteger(vrijemePocetak/0.5)
         || !Number.isInteger(vrijemeKraj/0.5) 
             || vrijemePocetak >= vrijemeKraj 
@@ -117,6 +125,7 @@ function dodajAktivnost(raspored, naziv, tip, vrijemePocetak, vrijemeKraj, dan) 
     let duzina = red.length;
 
     //Provjer da li se preklapa vrijeme obaveze sa vec postojecom obavezom
+    //Idemo do <= duzina, jer ako ne nadje do <duzina trenutka, onda izlazimo iz opsega, pa je sigurno zauzet
     let greska = false;
     for(let i = 1; i <= duzina; i++) {
         if(pocetakSati == vrijemePocetak) {
@@ -235,7 +244,7 @@ function skontajPocetak(tabela) {
     }
     //U slucaju da je unesena obaveza za vrijeme izmedju 13 i 14
     if( pocetak < 0) {
-        pocetak = 13;
+        pocetak = parseInt(tabela.rows[0].cells[1].innerHTML);
     }
 
     return pocetak;
