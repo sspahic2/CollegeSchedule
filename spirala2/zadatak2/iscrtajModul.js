@@ -56,9 +56,12 @@ let Tabela = (function() {
                 i+=0.5;
             }
             else {
-                let text =document.createTextNode(i);
-                headerSat.style.color="transparent";
-                headerSat.appendChild(text);
+                if(Number.isInteger((i-0.5))) {
+                    let text =document.createTextNode(i-0.5);
+                    headerSat.style.color="transparent";
+                    headerSat.appendChild(text);
+                }
+                headerSat.setAttribute("class", "prozirno");
             }
             red.appendChild(headerSat);
         }

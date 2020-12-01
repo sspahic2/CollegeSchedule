@@ -20,10 +20,12 @@ function iscrtajRaspored(div, dani, satPocetak, satKraj) {
 
     //Koja sve vremena se trebaju nalaziti u prvom redu
     for(let i = 0; i < vremena.length; i++) {
-        if(satPocetak <= vremena[i] && vremena[i] < satKraj) {
+        if(satPocetak <= vremena[i] && vremena[i] <= satKraj) {
             headerVrijemeNiz.push(vremena[i]);
         }
     }
+
+    headerVrijemeNiz.pop();
     
     //Ogranicenje da svaka druga kolona ima isprekidan border
     let grupa = document.createElement("colgroup");
@@ -43,7 +45,7 @@ function iscrtajRaspored(div, dani, satPocetak, satKraj) {
 
     //Dodavanje vremena
     let red = document.createElement("tr");
-    for(let i = satPocetak; i < satKraj; i+=0.5) {
+    for(let i = satPocetak; i <= satKraj; i+=0.5) {
         let headerSat = document.createElement("th");
         if(headerVrijemeNiz.includes(i)) {
             headerSat.setAttribute("colspan", "2");
@@ -58,9 +60,11 @@ function iscrtajRaspored(div, dani, satPocetak, satKraj) {
             //Unosimo nevidljive brojeve u svaku celiju koja je slobodna
             //Oduzima se 0.5 zbog prve celije koja je rezervisana radi dana u sedmici
             //Pokriva slucaj kada nema sati u prvom redu
-            let text =document.createTextNode(i-0.5);
-            headerSat.style.color="transparent";
-            headerSat.appendChild(text);
+                let text;
+                text = document.createTextNode(i);
+                headerSat.style.color="transparent";
+                headerSat.appendChild(text);
+                headerSat.setAttribute("class", "prozirno");
         }
         red.appendChild(headerSat);
     }
