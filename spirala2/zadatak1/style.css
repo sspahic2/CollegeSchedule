@@ -71,3 +71,10 @@ div.tekst, th {
     font-weight: normal;
     font-size: x-small;
 }
+
+th.prozirno {
+    font-size: xx-small;
+    text-align: center;
+    padding: 0px;
+    /*display: hidden;*/
+}
