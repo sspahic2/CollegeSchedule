@@ -34,4 +34,28 @@ app.get('/test.html', function(req, res) {
     res.sendFile('./spirala2/zadatak2/test.html', {root: __dirname});
 });
 
+app.get('/predmeti', function(req, res) {
+    fs.readFile( __dirname + '/predmeti.txt', function(err, data) {
+        if(err) throw err;
+        var JSONtext = toJSONPredmet(data.toString('utf8'));
+        res.json(JSONtext);
+    });
+});
 app.listen(3000);
+
+
+
+function toJSONPredmet(text = "") {
+    const lines = text.split('\n');
+    var array = [];
+
+    for(let i in lines) {
+        var predmeti = lines[i].split(',');
+        for(let j in predmeti) {
+            let ociscen = predmeti[j].trim();
+            let obj = {"naziv":ociscen};
+            array.push(obj);
+        }
+    }
+    return (array);
+}
