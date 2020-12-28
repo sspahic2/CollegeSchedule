@@ -56,7 +56,7 @@ app.get('/predmet/:naziv/aktivnost', function(req, res) {
     fs.readFile(__dirname + '/aktivnosti.txt', function(err, data) {
         if(err) throw err;
 
-        let JSONtext = toJSONAktivnost(data.toString('utf8'));
+        let JSONtext = toJSONAktivnost(data.toString('utf8'), req.params.naziv);
         res.json(JSONtext);
     });
 });
