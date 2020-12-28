@@ -1,0 +1,17 @@
+{
+  "name": "wt20p17906",
+  "version": "1.0.0",
+  "description": "Spiralni nacin programiranja na predmetu Web tehnologije",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://sspahic2@bitbucket.org/sspahic2/wt20p17906.git"
+  },
+  "author": "Sabahudin Spahic",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/sspahic2/wt20p17906#readme"
+}
