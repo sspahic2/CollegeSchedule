@@ -37,13 +37,49 @@ app.get('/test.html', function(req, res) {
 app.get('/predmeti', function(req, res) {
     fs.readFile( __dirname + '/predmeti.txt', function(err, data) {
         if(err) throw err;
-        var JSONtext = toJSONPredmet(data.toString('utf8'));
+        let JSONtext = toJSONPredmet(data.toString('utf8'));
         res.json(JSONtext);
     });
 });
 app.listen(3000);
 
+app.get('/aktivnosti', function(req, res) {
+    fs.readFile(__dirname + '/aktivnosti.txt', function(err, data) {
+        if(err) throw err;
 
+        let JSONtext = toJSONAktivnost(data.toString('utf8'));
+        res.json(JSONtext);
+    });
+});
+
+app.get('/predmet/:naziv/aktivnost', function(req, res) {
+    fs.readFile(__dirname + '/aktivnosti.txt', function(err, data) {
+        if(err) throw err;
+
+        let JSONtext = toJSONAktivnost(data.toString('utf8'));
+        res.json(JSONtext);
+    });
+});
+
+function toJSONAktivnost(text = "", naziv="") {
+    const lines = text.split('\n');
+    var array = [];
+
+    for(let i in lines) {
+        var aktivnosti = lines[i].split(',');
+        let obj = {};
+        obj["naziv"] = aktivnosti[0].trim();
+        obj["tip"] = aktivnosti[1].trim();
+        obj["pocetak"] = parseFloat(aktivnosti[2].trim());
+        obj["kraj"] = parseFloat(aktivnosti[3].trim());
+        obj["dan"] = aktivnosti[4].trim();
+
+        array.push(obj);
+    }
+
+    array = (naziv) ? array.filter(object => object.naziv.toLowerCase() === naziv.toLowerCase()) : array;
+    return array;
+}
 
 function toJSONPredmet(text = "") {
     const lines = text.split('\n');
