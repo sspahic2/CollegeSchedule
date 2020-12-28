@@ -2,3 +2,5 @@ Inženjerska matematika 1
 Inženjerska matematika 2
 Objektno orjentirana analiza i dizajn
 Osnove računarstva
+Osnove operacionih istraživanja
+Razvoj mobilnih aplikacija

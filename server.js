@@ -12,7 +12,6 @@ app.use(express.static(path.join(__dirname, 'spirala1/zadatak4')));
 app.use(express.static(path.join(__dirname, 'spirala2/zadatak1')));
 app.use(express.static(path.join(__dirname, 'spirala2/zadatak2')));
 app.use(express.static(__dirname));
-//app.use(express.static(path.join(__dirname, '/css')));
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.get('/raspored.html', function(req, res) {
@@ -60,6 +59,32 @@ app.get('/predmet/:naziv/aktivnost', function(req, res) {
         res.json(JSONtext);
     });
 });
+
+app.post('/predmet', function(req, res) {
+    let body = req.body;
+    fs.readFile(__dirname + '/predmeti.txt', function(err, data) {
+        if(err) throw err;
+
+        let JSONtext = toJSONPredmet(data.toString('utf8'));
+        let noviRed = "\n" + body['naziv'];
+
+        (includes(JSONtext, body)) ? res.json({"message":"Naziv predmeta postoji!"}) : 
+                fs.appendFile(__dirname + '/predmeti.txt', noviRed, function(err) {
+                    if(err) throw err; 
+                    res.json({"message":"Uspješno dodan predmet!"})
+                }); 
+    });
+});
+
+
+
+function includes(a, b) {
+    for(let i in a) {
+        if(a[i].naziv === b.naziv) {
+            return true;
+        }
+    }
+}
 
 function toJSONAktivnost(text = "", naziv="") {
     const lines = text.split('\n');
