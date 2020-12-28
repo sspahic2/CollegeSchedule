@@ -86,12 +86,9 @@ function toJSONPredmet(text = "") {
     var array = [];
 
     for(let i in lines) {
-        var predmeti = lines[i].split(',');
-        for(let j in predmeti) {
-            let ociscen = predmeti[j].trim();
-            let obj = {"naziv":ociscen};
-            array.push(obj);
-        }
+        let ociscen = lines[i].trim();
+        let obj = {"naziv":ociscen};
+        array.push(obj);
     }
     return (array);
 }

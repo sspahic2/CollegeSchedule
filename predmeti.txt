@@ -1,1 +1,4 @@
-Inženjerska matematika 1, Inženjerska matematika 2, Objektno orjentirana analiza i dizajn, Osnove računarstva
+Inženjerska matematika 1
+Inženjerska matematika 2
+Objektno orjentirana analiza i dizajn
+Osnove računarstva
