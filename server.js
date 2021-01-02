@@ -3,8 +3,6 @@ const app = express();
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
-const { type } = require('os');
-const { json } = require('body-parser');
 
 app.use(bodyParser.json({
     type: function() {
@@ -143,6 +141,62 @@ app.delete('/aktivnost/:naziv', function(req, res) {
         }
     });
 
+});
+
+app.delete('/predmet/:naziv', function(req, res) {
+    var JSONtext;
+    let naziv = req.params.naziv
+    fs.readFile(__dirname + "/predmeti.txt", function(err, data) {
+        JSONtext = toJSONPredmet(data.toString("utf8"));
+        let temp = [];
+        for(let i=0; i<JSONtext.length; i++) {
+            if(JSONtext[i].naziv != naziv) {
+                temp.push(JSONtext[i]);
+            }
+        }
+        if(temp.length != JSONtext.length) {
+            let tekst = "";
+            for(let i = 0; i < temp.length; i++) {
+                tekst += temp[i].naziv + "\n";
+            }
+            res.json({message:"Uspješno obrisana predmet!"});
+            fs.writeFile(__dirname + "/predmeti.txt", tekst, function(err) {
+                if(err) throw err;
+            });
+        }
+        else {
+            res.json({message:"Greška - predmet nije obrisan!"});
+        }
+    });
+});
+
+app.delete('/all', function(req, res) {
+    fs.readFile(__dirname + "/aktivnosti.txt", function(err, data) {
+        if(err) {
+            res.json({message: "Greška - sadržaj datoteka nije moguće obrisati!"});
+            return;
+        }
+        console.log(data.toString("utf8"));
+        fs.readFile(__dirname + "/predmeti.txt", function(err, data) {
+            if(err) {
+                res.json({message: "Greška - sadržaj datoteka nije moguće obrisati!"});
+                return;
+            }
+        });
+        fs.writeFile(__dirname + "/aktivnosti.txt", "", function(err) {
+            if(err) {
+                throw err;
+            }
+        });
+
+        fs.writeFile(__dirname + "/predmeti.txt", "", function(err) {
+            if(err) {
+                throw err;
+            }
+        });
+    });
+
+    res.json({message: "Uspješno obrisan sadržaj datoteka!"});
 });
 app.listen(3000);
 

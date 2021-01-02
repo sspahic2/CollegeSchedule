@@ -1,2 +1,0 @@
-VVS,predavanje,16,19,ponedjeljak
-OIS,predavanje,15,17,Srijeda
