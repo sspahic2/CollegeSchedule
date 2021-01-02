@@ -176,7 +176,6 @@ app.delete('/all', function(req, res) {
             res.json({message: "Greška - sadržaj datoteka nije moguće obrisati!"});
             return;
         }
-        console.log(data.toString("utf8"));
         fs.readFile(__dirname + "/predmeti.txt", function(err, data) {
             if(err) {
                 res.json({message: "Greška - sadržaj datoteka nije moguće obrisati!"});
