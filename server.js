@@ -3,8 +3,14 @@ const app = express();
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
+const { type } = require('os');
+const { json } = require('body-parser');
 
-app.use(bodyParser.json());
+app.use(bodyParser.json({
+    type: function() {
+        return true;
+    }
+}));
 app.use(express.static(path.join(__dirname, 'spirala1/zadatak1')));
 app.use(express.static(path.join(__dirname, 'spirala1/zadatak2')));
 app.use(express.static(path.join(__dirname, 'spirala1/zadatak3')));
@@ -40,7 +46,6 @@ app.get('/predmeti', function(req, res) {
         res.json(JSONtext);
     });
 });
-app.listen(3000);
 
 app.get('/aktivnosti', function(req, res) {
     fs.readFile(__dirname + '/aktivnosti.txt', function(err, data) {
@@ -62,21 +67,60 @@ app.get('/predmet/:naziv/aktivnost', function(req, res) {
 
 app.post('/predmet', function(req, res) {
     let body = req.body;
-    fs.readFile(__dirname + '/predmeti.txt', function(err, data) {
-        if(err) throw err;
+    if(body.naziv != undefined)
+        fs.readFile(__dirname + '/predmeti.txt', function(err, data) {
+            if(err) throw err;
 
-        let JSONtext = toJSONPredmet(data.toString('utf8'));
-        let noviRed = "\n" + body['naziv'];
+            let JSONtext = toJSONPredmet(data.toString('utf8'));
+            let noviRed = "\n" + body['naziv'];
 
-        (includes(JSONtext, body)) ? res.json({"message":"Naziv predmeta postoji!"}) : 
+            (includes(JSONtext, body)) ? res.json({"message":"Naziv predmeta postoji!"}) : 
                 fs.appendFile(__dirname + '/predmeti.txt', noviRed, function(err) {
                     if(err) throw err; 
-                    res.json({"message":"Uspješno dodan predmet!"})
+                    res.json({"message":"Uspješno dodan predmet!"});
                 }); 
+        });
+});
+
+app.post('/aktivnost', function(req, res) {
+    let body = req.body;
+    let ok = true;
+
+    if(body.pocetak >= body.kraj || !Number.isInteger(body.pocetak*2) || !Number.isInteger(body.kraj*2)) {
+        res.json({"message":"Aktivnost nije validna!"});
+        ok = false;
+        return;
+    }
+    fs.readFile(__dirname + "/aktivnosti.txt", function(err, data) {
+        if(err) throw err;
+
+        let JSONtext = toJSONAktivnost(data.toString('utf8'));
+        for(let i = 0; i < JSONtext.length; i++) {
+            let aktivnost = JSONtext[i];
+            if(aktivnost.dan == body.dan) {
+                if(aktivnost.pocetak <= body.pocetak && body.pocetak <= aktivnost.kraj ||
+                    body.kraj >= aktivnost.pocetak && body.kraj <= aktivnost.kraj ||
+                    body.pocetak <= aktivnost.pocetak && aktivnost.pocetak <= body.kraj) {
+                        res.json({"message":"Aktivnost nije validna!"});
+                        ok = false
+                        return;
+                    }
+            }
+        }
+        if(ok) {
+            let noviRed = "\n" + body.naziv + "," + body.tip + "," + body.pocetak + "," + body.kraj + "," + body.dan;
+            fs.appendFile(__dirname + "/aktivnosti.txt", noviRed, function(err) {
+                if(err) throw err;
+                res.json({"message" : "Uspješno dodana aktivnost!"});
+            });
+        }
     });
 });
 
+app.delete('/aktivnost/:naziv', function(req, res) {
 
+});
+app.listen(3000);
 
 function includes(a, b) {
     for(let i in a) {
@@ -84,6 +128,7 @@ function includes(a, b) {
             return true;
         }
     }
+    return false;
 }
 
 function toJSONAktivnost(text = "", naziv="") {
