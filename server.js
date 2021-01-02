@@ -72,12 +72,12 @@ app.post('/predmet', function(req, res) {
             if(err) throw err;
 
             let JSONtext = toJSONPredmet(data.toString('utf8'));
-            let noviRed = "\n" + body['naziv'];
+            let noviRed = body['naziv'] + "\n";
 
             (includes(JSONtext, body)) ? res.json({"message":"Naziv predmeta postoji!"}) : 
                 fs.appendFile(__dirname + '/predmeti.txt', noviRed, function(err) {
                     if(err) throw err; 
-                    res.json({"message":"Uspješno dodan predmet!"});
+                    res.json({message:"Uspješno dodan predmet!"});
                 }); 
         });
 });
@@ -87,7 +87,7 @@ app.post('/aktivnost', function(req, res) {
     let ok = true;
 
     if(body.pocetak >= body.kraj || !Number.isInteger(body.pocetak*2) || !Number.isInteger(body.kraj*2)) {
-        res.json({"message":"Aktivnost nije validna!"});
+        res.json({message:"Aktivnost nije validna!"});
         ok = false;
         return;
     }
@@ -98,26 +98,50 @@ app.post('/aktivnost', function(req, res) {
         for(let i = 0; i < JSONtext.length; i++) {
             let aktivnost = JSONtext[i];
             if(aktivnost.dan == body.dan) {
-                if(aktivnost.pocetak <= body.pocetak && body.pocetak <= aktivnost.kraj ||
-                    body.kraj >= aktivnost.pocetak && body.kraj <= aktivnost.kraj ||
-                    body.pocetak <= aktivnost.pocetak && aktivnost.pocetak <= body.kraj) {
-                        res.json({"message":"Aktivnost nije validna!"});
+                if(aktivnost.pocetak <= body.pocetak && body.pocetak < aktivnost.kraj ||
+                    body.kraj > aktivnost.pocetak && body.kraj <= aktivnost.kraj ||
+                    body.pocetak <= aktivnost.pocetak && aktivnost.pocetak < body.kraj) {
+                        res.json({message:"Aktivnost nije validna!"});
                         ok = false
                         return;
                     }
             }
         }
         if(ok) {
-            let noviRed = "\n" + body.naziv + "," + body.tip + "," + body.pocetak + "," + body.kraj + "," + body.dan;
+            let noviRed = body.naziv + "," + body.tip + "," + body.pocetak + "," + body.kraj + "," + body.dan + "\n";
             fs.appendFile(__dirname + "/aktivnosti.txt", noviRed, function(err) {
                 if(err) throw err;
-                res.json({"message" : "Uspješno dodana aktivnost!"});
+                res.json({message : "Uspješno dodana aktivnost!"});
             });
         }
     });
 });
 
 app.delete('/aktivnost/:naziv', function(req, res) {
+    var JSONtext;
+    let naziv = req.params.naziv
+    fs.readFile(__dirname + "/aktivnosti.txt", function(err, data) {
+        JSONtext = toJSONAktivnost(data.toString("utf8"));
+        let temp = [];
+        for(let i=0; i<JSONtext.length; i++) {
+            if(JSONtext[i].naziv != naziv) {
+                temp.push(JSONtext[i]);
+            }
+        }
+        if(temp.length != JSONtext.length) {
+            let tekst = "";
+            for(let i = 0; i < temp.length; i++) {
+                tekst += temp[i].naziv + "," + temp[i].tip + "," + temp[i].pocetak + "," + temp[i].kraj + "," + temp[i].dan + "\n";
+            }
+            res.json({message:"Uspješno obrisana aktivnost!"});
+            fs.writeFile(__dirname + "/aktivnosti.txt", tekst, function(err) {
+                if(err) throw err;
+            });
+        }
+        else {
+            res.json({message:"Greška - aktivnost nije obrisana!"});
+        }
+    });
 
 });
 app.listen(3000);
@@ -134,17 +158,21 @@ function includes(a, b) {
 function toJSONAktivnost(text = "", naziv="") {
     const lines = text.split('\n');
     var array = [];
+    if(lines[0] == '') {
+        return array;
+    }
 
     for(let i in lines) {
         var aktivnosti = lines[i].split(',');
-        let obj = {};
-        obj["naziv"] = aktivnosti[0].trim();
-        obj["tip"] = aktivnosti[1].trim();
-        obj["pocetak"] = parseFloat(aktivnosti[2].trim());
-        obj["kraj"] = parseFloat(aktivnosti[3].trim());
-        obj["dan"] = aktivnosti[4].trim();
-
-        array.push(obj);
+        if(aktivnosti != '') {
+            let obj = {};
+            obj["naziv"] = aktivnosti[0].trim();
+            obj["tip"] = aktivnosti[1].trim();
+            obj["pocetak"] = parseFloat(aktivnosti[2].trim());
+            obj["kraj"] = parseFloat(aktivnosti[3].trim());
+            obj["dan"] = aktivnosti[4].trim();
+            array.push(obj);
+        }
     }
 
     array = (naziv) ? array.filter(object => object.naziv.toLowerCase() === naziv.toLowerCase()) : array;
@@ -157,8 +185,10 @@ function toJSONPredmet(text = "") {
 
     for(let i in lines) {
         let ociscen = lines[i].trim();
-        let obj = {"naziv":ociscen};
-        array.push(obj);
+        if(ociscen != '') {
+            let obj = {"naziv":ociscen};
+            array.push(obj);
+        }
     }
     return (array);
 }
