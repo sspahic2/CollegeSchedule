@@ -164,7 +164,7 @@ app.delete('/predmet/:naziv', function(req, res) {
             for(let i = 0; i < temp.length; i++) {
                 tekst += temp[i].naziv + "\n";
             }
-            res.json({message:"Uspješno obrisana predmet!"});
+            res.json({message:"Uspješno obrisan predmet!"});
             fs.writeFile(__dirname + "/predmeti.txt", tekst, function(err) {
                 if(err) throw err;
             });
@@ -187,18 +187,18 @@ app.delete('/all', function(req, res) {
                 return;
             }
         });
-        fs.writeFile(__dirname + "/aktivnosti.txt", "", function(err) {
+    });
+        fs.writeFile(__dirname + "/aktivnosti.txt", '', function(err) {
             if(err) {
                 throw err;
             }
         });
 
-        fs.writeFile(__dirname + "/predmeti.txt", "", function(err) {
+        fs.writeFile(__dirname + "/predmeti.txt", '', function(err) {
             if(err) {
                 throw err;
             }
         });
-    });
 
     res.json({message: "Uspješno obrisan sadržaj datoteka!"});
 });
