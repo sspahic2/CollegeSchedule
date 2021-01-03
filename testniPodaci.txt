@@ -6,6 +6,10 @@ POST,/aktivnost,{"naziv":"RMA","tip":"vjezba","pocetak":15,"kraj":17,"dan":"utor
 POST,/aktivnost,{"naziv":"VVS","tip":"predavanje","pocetak":12,"kraj":15,"dan":"cetvrtak"},{"message":"Uspješno dodana aktivnost!"}
 POST,/aktivnost,{"naziv":"VVS","tip":"vjezba","pocetak":10.5,"kraj":12,"dan":"petak"},{"message":"Uspješno dodana aktivnost!"}
 GET,/aktivnosti,null,[{"naziv":"WT","tip":"vjezba","pocetak":8,"kraj":12,"dan":"ponedjeljak"},{"naziv":"RMA","tip":"predavanje","pocetak":7,"kraj":11,"dan":"utorak"},{"naziv":"RMA","tip":"vjezba","pocetak":15,"kraj":17,"dan":"utorak"},{"naziv":"VVS","tip":"predavanje","pocetak":12,"kraj":15,"dan":"cetvrtak"},{"naziv":"VVS","tip":"vjezba","pocetak":10.5,"kraj":12,"dan":"petak"}]
+POST,/aktivnosti,{"naziv":"OIS","tip":"vjezba","pocetak":11,"kraj":13,"dan":"petak"},{"message":"Aktivnost nije validna!"}
+DELETE,/aktivnost/VVS,null,{"message":"Uspješno obrisana aktivnost!"}
+DELETE,/aktivnost/VVS,null,{"message":"Greška - aktivnost nije obrisana!"}
+GET,/aktivnosti,null,[{"naziv":"WT","tip":"vjezba","pocetak":8,"kraj":12,"dan":"ponedjeljak"},{"naziv":"RMA","tip":"predavanje","pocetak":7,"kraj":11,"dan":"utorak"},{"naziv":"RMA","tip":"vjezba","pocetak":15,"kraj":17,"dan":"utorak"}]
 POST,/predmet,{"naziv":"VVS"},{"message":"Uspješno dodan predmet!"}
 GET,/predmeti,null,[{"naziv":"RMA"},{"naziv":"VVS"}]
 POST,/predmet,{"naziv":"OOI"},{"message":"Uspješno dodan predmet!"}
@@ -13,5 +17,9 @@ GET,/predmeti,null,[{"naziv":"RMA"},{"naziv":"VVS"},{"naziv":"OOI"}]
 DELETE,/predmet/OOI,null,{"message":"Uspješno obrisan predmet!"}
 DELETE,/predmet/OOI,null,{"message":"Greška - predmet nije obrisan!"}
 GET,/predmet,null,[{"naziv":"RMA"},{"naziv":"VVS"}]
+POST,/predmet,{"naziv":"RMA"},{"message":"Naziv predmeta postoji!"}
 DELETE,/all,null,{"message":"Uspješno obrisan sadržaj datoteka!"}
-GET,/predmet,null,[]
+GET,/predmeti,null,[]
+GET,/aktivnosti,null,[]
+POST,/predmet,{"naziv":"Inženjerska matematika 1"},{"message":"Uspješno dodan predmet!"}
+POST,/predmet,{"naziv":"Inženjerska matematika 2"},{"message":"Uspješno dodan predmet!"}

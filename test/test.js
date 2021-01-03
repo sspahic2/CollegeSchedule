@@ -8,16 +8,14 @@ describe('API', function() {
             let lines = text.split('\n');
             lines.forEach(function(test) {
                 var dvaBloka = test.split(/\[(.*?)\]/);
-                console.log(dvaBloka);
                 dvaBloka = dvaBloka.filter(item => !(item == '\r'));
-                console.log(dvaBloka);
                 let operacija;
                 let ruta;
                 let ulaz;
                 let izlaz;
                 if(dvaBloka.length == 1) {
                     let data = dvaBloka[0].split(/{([^}]+)}/);
-                    data = data.filter(item => !(item == "," || item == ""));
+                    data = data.filter(item => !(item == ","));
                     data = data.filter(item => !(item == '\r'));
                     if(data.length == 2) {
                         let operacijaRutaUlaz = data[0].split(",");
@@ -26,7 +24,7 @@ describe('API', function() {
                         ulaz = operacijaRutaUlaz[2];
                         izlaz = "{" + data[1] + "}";
                     }
-                    else if(data.length == 3) {
+                    else if(data.length >= 3) {
                         let operacijaRuta = data[0].split(",");
                         operacija = operacijaRuta[0];
                         ruta = operacijaRuta[1];
@@ -36,7 +34,7 @@ describe('API', function() {
                 }
                 else {
                     let data = dvaBloka[0].split(/{([^}]+)}/);
-                    data = data.filter(item => !(item == "," || item == ""));
+                    data = data.filter(item => !(item == ","));
                     data = data.filter(item => !(item == '\r'));
                     if(data.length == 1) {
                         let operacijaRutaUlaz = data[0].split(",");
