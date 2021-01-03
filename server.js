@@ -4,11 +4,13 @@ const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
 
+//Prima se samo json input, svi ostali izbacuju error html
 app.use(bodyParser.json({
     type: function() {
         return true;
     }
 }));
+//Zbog meni elemenata
 app.use(express.static(path.join(__dirname, 'spirala1/zadatak1')));
 app.use(express.static(path.join(__dirname, 'spirala1/zadatak2')));
 app.use(express.static(path.join(__dirname, 'spirala1/zadatak3')));
@@ -18,6 +20,9 @@ app.use(express.static(path.join(__dirname, 'spirala2/zadatak2')));
 app.use(express.static(__dirname));
 app.use(bodyParser.urlencoded({extended: true}));
 
+//**
+    //GET
+//**
 app.get('/raspored.html', function(req, res) {
     res.sendFile('./spirala1/zadatak1/raspored.html', {root: __dirname});
 });
@@ -62,6 +67,10 @@ app.get('/predmet/:naziv/aktivnost', function(req, res) {
         res.json(JSONtext);
     });
 });
+
+//**
+    //POST
+//**
 
 app.post('/predmet', function(req, res) {
     let body = req.body;
@@ -119,6 +128,10 @@ app.post('/aktivnost', function(req, res) {
         }
     });
 });
+
+//**
+    //DELETE
+//**
 
 app.delete('/aktivnost/:naziv', function(req, res) {
     var JSONtext;
@@ -204,6 +217,8 @@ app.delete('/all', function(req, res) {
 });
 app.listen(3000);
 
+//Provjerava da li se nalazi predmet u predmetima.txt
+//Takodjer prima niz predmeta
 function includes(a, b) {
     if(b.length > 1) {
         for(let i in a) {
