@@ -65,12 +65,17 @@ app.get('/predmet/:naziv/aktivnost', function(req, res) {
 
 app.post('/predmet', function(req, res) {
     let body = req.body;
-    if(body.naziv != undefined)
         fs.readFile(__dirname + '/predmeti.txt', function(err, data) {
             if(err) throw err;
-
+            let noviRed = "";
             let JSONtext = toJSONPredmet(data.toString('utf8'));
-            let noviRed = body['naziv'] + "\n";
+            if(body.length > 1) {
+                for(let i =  0; i < body.length; i++) {
+                    noviRed += body[i]['naziv'] + "\n";
+                }
+            }
+            else {noviRed = body['naziv'] + "\n";}
+            
 
             (includes(JSONtext, body)) ? res.json({"message":"Naziv predmeta postoji!"}) : 
                 fs.appendFile(__dirname + '/predmeti.txt', noviRed, function(err) {
@@ -200,9 +205,20 @@ app.delete('/all', function(req, res) {
 app.listen(3000);
 
 function includes(a, b) {
-    for(let i in a) {
-        if(a[i].naziv === b.naziv) {
-            return true;
+    if(b.length > 1) {
+        for(let i in a) {
+            for(let j in b) {
+                if(a[i].naziv === b[j].naziv) {
+                    return true;
+                }
+            }
+        }
+    }
+    else {
+        for(let i in a) {
+            if(a[i].naziv === b.naziv) {
+                return true;
+            }
         }
     }
     return false;
