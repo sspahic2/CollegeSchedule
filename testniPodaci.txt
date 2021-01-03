@@ -11,6 +11,8 @@ DELETE,/aktivnost/VVS,null,{"message":"Uspješno obrisana aktivnost!"}
 DELETE,/aktivnost/VVS,null,{"message":"Greška - aktivnost nije obrisana!"}
 GET,/aktivnosti,null,[{"naziv":"WT","tip":"vjezba","pocetak":8,"kraj":12,"dan":"ponedjeljak"},{"naziv":"RMA","tip":"predavanje","pocetak":7,"kraj":11,"dan":"utorak"},{"naziv":"RMA","tip":"vjezba","pocetak":15,"kraj":17,"dan":"utorak"}]
 POST,/predmet,{"naziv":"VVS"},{"message":"Uspješno dodan predmet!"}
+GET,/predmet/RMA/aktivnost,null,[{"naziv":"RMA","tip":"predavanje","pocetak":7,"kraj":11,"dan":"utorak"},{"naziv":"RMA","tip":"vjezba","pocetak":15,"kraj":17,"dan":"utorak"}]
+GET,/predmet/VVS/aktivnost,null,[]
 GET,/predmeti,null,[{"naziv":"RMA"},{"naziv":"VVS"}]
 POST,/predmet,{"naziv":"OOI"},{"message":"Uspješno dodan predmet!"}
 GET,/predmeti,null,[{"naziv":"RMA"},{"naziv":"VVS"},{"naziv":"OOI"}]
