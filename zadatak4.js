@@ -1,4 +1,3 @@
-//var XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
 var ajax = new XMLHttpRequest();
 var predmeti;
 var aktivnosti;
@@ -38,61 +37,61 @@ function getData(){
 }
 
 function sendData() {
+    var responseDiv = document.getElementById("response");
     var form = document.getElementById("forma");
     var formData = new FormData(form);
     var naziv = formData.get('naziv');
     var tip = formData.get('tip');
-    var pocetnoVrijeme = formData.get('pocetak');
-    var krajVrijeme = formData.get('kraj');
+    var pocetak = rijesiVrijeme(formData.get('pocetak'));
+    var kraj = rijesiVrijeme(formData.get('kraj'));
     var dan = formData.get('dan');
 
-    let trebaRazdvojiti = pocetnoVrijeme.split(':');
-    var pocetak = parseFloat(trebaRazdvojiti[0]);
-    var ok = true;
-    if(trebaRazdvojiti[1] == 30) {
-        pocetak += 0.5;
-    }
-    else if(trebaRazdvojiti[1] != 00) {
-        ok = false;
+    while(responseDiv.firstChild) {
+        responseDiv.removeChild(responseDiv.lastChild);
     }
 
-    trebaRazdvojiti = krajVrijeme.split(':');
-    var kraj = parseFloat(trebaRazdvojiti[0]);
-    if(trebaRazdvojiti[1] == 30) {
-        kraj += 0.5;
-    }
-    else if(trebaRazdvojiti[1] != 00) {
-        ok = false;
+    if(!pocetak || !kraj) {
+        //Nije napravljena aktivnost
+        responseDiv.style.background="#ff726f";
+        responseDiv.appendChild(document.createTextNode("Nije unesena aktivnost!"));
+        form.reset();
+        return;
     }
     obradaPredmeta(naziv, function(response) {
         if(response == "Nije napravljen predmet" || response == "Jeste napravljen predmet") {
-            console.log("Dodjem do ovdje");
             obradaAktivnost(naziv, tip, pocetak, kraj, dan, function(responseAktivnost) {
                 if(responseAktivnost == "Jeste napravljen") {
-                    console.log(response);
+                    //Refresuj podatke
+                    getData();
+                    //Uspjesno napravljena aktivnost
+                    responseDiv.style.background="#64e764";
+                    responseDiv.appendChild(document.createTextNode("Uspjesno unesena aktivnost!"));
                 }
                 else {
+                    //Obrisi predmet ako je napravljen
                     if(response == "Jeste napravljen") {
                         ajax = new XMLHttpRequest();
                         ajax.open('DELETE',"http://localhost:3000/predmet/" + naziv, true);
                         ajax.onreadystatechange = function() {
                             if(this.readyState == 4 && this.status == 200) {
-                                console.log(aktivnostRezultat);
+                                //Nije napravljena aktivnost
+                                responseDiv.style.background="#ff726f";
+                                responseDiv.appendChild(document.createTextNode("Nije unesena aktivnost!"));
                             }
                         }
                         ajax.send();
                     }
                 }
-                getData();
             });
         }
     });
+    form.reset();
 }
 
 function obradaPredmeta(nazivPredmeta, callbackPredmet) {
     //Da li postoji predmet
     if(predmeti.filter(item => (item.naziv == nazivPredmeta)).length == 1) {
-        console.log("Ovdje sam usao, ne pravi se novi predmet");
+
        callbackPredmet("Nije napravljen predmet");
     }
     else {
@@ -126,4 +125,17 @@ function obradaAktivnost(naziv, tip, pocetak, kraj, dan, callbackAktivnost) {
         }
     }
     ajax.send("{\"naziv\":\"" + naziv + "\",\"tip\":\"" + tip + "\",\"pocetak\":" + parseFloat(pocetak) + ",\"kraj\":" + parseFloat(kraj) + ",\"dan\":\"" + dan + "\"}");
+}
+
+function rijesiVrijeme(vrijeme) {
+    let result;
+    let trebaRazdvojiti = vrijeme.split(':');
+    result = parseFloat(trebaRazdvojiti[0]);
+    if(trebaRazdvojiti[1] == 30) {
+        pocetak += 0.5;
+    }
+    else if(trebaRazdvojiti[1] != 00) {
+        result = false;
+    }
+    return result;
 }
