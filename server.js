@@ -41,6 +41,9 @@ app.get('/spirala2raspored.html', function(req, res) {
 app.get('/test.html', function(req, res) {
     res.sendFile('./spirala2/zadatak2/test.html', {root: __dirname});
 });
+app.get('/unosRasporeda.html', function(req, res) {
+    res.sendFile('unosRasporeda.html', {root: __dirname});
+});
 
 app.get('/predmeti', function(req, res) {
     fs.readFile( __dirname + '/predmeti.txt', function(err, data) {
