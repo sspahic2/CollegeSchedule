@@ -1,7 +1,6 @@
-WT,vjezba,8,12,ponedjeljak
-RMA,predavanje,7,11,utorak
-RMA,vjezba,15,17,utorak
-VVS,predavanje,12,15,cetvrtak
-RG,vjezba,1,2,ponedjeljak
-AAA,predmet,2,4,utorak
-BBB,vjezba,6,8,srijeda
+WT,Vježba,8,12,Ponedjeljak
+RMA,Predavanje,7,11,Utorak
+RMA,Vježba,15,17,Utorak
+VVS,Predavanje,12,15,Četvrtak
+RG,Vježba,1,2,Ponedjeljak
+asdasd,Vježba,12,13,Nedjelja
