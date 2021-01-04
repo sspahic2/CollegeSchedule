@@ -1,2 +1,7 @@
-Inženjerska matematika 1
-Inženjerska matematika 2
+RMA
+VVS
+PWS
+WT
+OOI
+RG
+

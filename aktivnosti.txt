@@ -1,0 +1,8 @@
+WT,vjezba,8,12,ponedjeljak
+RMA,predavanje,7,11,utorak
+RMA,vjezba,15,17,utorak
+VVS,predavanje,12,15,cetvrtak
+VVS,vjezba,10.5,12,petak
+OIS,vjezba,15.5,17.5,petak
+OOI,vjezba,1.5,3.5,ponedjeljak
+RG,predmet,4.5,6.5,ponedjeljak
