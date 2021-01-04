@@ -1,7 +1,2 @@
-RMA
-VVS
-PWS
-WT
-OOI
-RG
-asdasd
+Inženjerska matematika 1
+Inženjerska matematika 2
