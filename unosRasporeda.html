@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body onload="getData()">
+    <form id="forma">
+        <label for="naziv">Naziv: <input type="text" name="naziv" id="naziv"></label> <br>
+        <label for="tip"> Tip:
+            <select name="tip" id="tip">
+                <option value="vjezba">Vjezba</option>
+                <option value="predmet">Predmet</option>
+            </select>
+        </label> <br>
+        <label for="pocetak">Vrijeme po&ccaron;etka: <input type="time" name="pocetak" id="pocetak"> </label> <br>
+        <label for="kraj">Vrijeme kraja: <input type="time" name="kraj" id="kraj"> </label> <br>
+        <label for="dan">Dan: 
+            <select name="dan" id="dan">
+                <option value="ponedjeljak">Ponedjeljak</option>
+                <option value="utorak">Utorak</option>
+                <option value="srijeda">Srijeda</option>
+                <option value="cetvrtak">&Ccaron;etvrtak</option>
+                <option value="petak">Petak</option>
+                <option value="subota">Subota</option>
+                <option value="nedjelja">Nedjelja</option>
+            </select>
+        </label> <br>
+        <input onclick="sendData()" type="button" value="Unos aktivnosti">
+    </form>
+    <div id="container"></div>
+
+<script src="zadatak4.js"></script>
+</body>
+</html>
