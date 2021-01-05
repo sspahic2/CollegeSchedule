@@ -2,6 +2,8 @@ var ajax = new XMLHttpRequest();
 var predmeti;
 var aktivnosti;
 var div = document.getElementById('container');
+const greskaBoja = "#ff726f";
+const uspjesnoBoja = "#64e764";
 
 function getData(){
 
@@ -52,7 +54,7 @@ function sendData() {
 
     if(!pocetak || !kraj) {
         //Nije napravljena aktivnost
-        responseDiv.style.background="#ff726f";
+        responseDiv.style.background=greskaBoja;
         responseDiv.appendChild(document.createTextNode("Aktivnost nije validna!"));
         form.reset();
         return;
@@ -64,22 +66,17 @@ function sendData() {
                     //Refresuj podatke
                     getData();
                     //Uspjesno napravljena aktivnost
-                    responseDiv.style.background="#64e764";
+                    responseDiv.style.background=uspjesnoBoja;
                     responseDiv.appendChild(document.createTextNode("Uspješno dodana aktivnost!"));
                 }
                 else {
                     //Obrisi predmet ako je napravljen
                     if(response == "Uspješno dodan predmet!") {
                         ajax = new XMLHttpRequest();
-                        ajax.open('DELETE',"http://localhost:3000/predmet/" + naziv, true);
-                        ajax.onreadystatechange = function() {
-                            if(this.readyState == 4 && this.status == 200) {
-                                //Nije napravljena aktivnost
-                            }
-                        }
+                        ajax.open('DELETE',"http://localhost:3000/predmet/" + naziv, true);                   
                         ajax.send();
                     }
-                    responseDiv.style.background="#ff726f";
+                    responseDiv.style.background=greskaBoja;
                     responseDiv.appendChild(document.createTextNode("Aktivnost nije validna!"));
                 }
             });
@@ -121,13 +118,11 @@ function obradaAktivnost(naziv, tip, pocetak, kraj, dan, callbackAktivnost) {
 
 //Pretvaranje input time u vrijeme oblika sat.polaSata ili sat
 function rijesiVrijeme(vrijeme) {
-    let result;
-    let trebaRazdvojiti = vrijeme.split(':');
-    result = parseFloat(trebaRazdvojiti[0]);
-    if(trebaRazdvojiti[1] == 30) {
-        pocetak += 0.5;
+    let result = parseFloat(vrijeme.toString().substr(0,2));
+    if(vrijeme.toString().substr(3) == "30") {
+        result += 0.5
     }
-    else if(trebaRazdvojiti[1] != 00) {         //Pogresno unesen format vremena
+    else if(vrijeme.toString().substr(3) != "00") {
         result = false;
     }
     return result;
