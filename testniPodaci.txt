@@ -1,17 +1,17 @@
 DELETE,/all,null,{"message":"Uspješno obrisan sadržaj datoteka!"}
 POST,/predmet,{"naziv":"RMA"},{"message":"Uspješno dodan predmet!"}
-POST,/aktivnost,{"naziv":"WT","tip":"vjezba","pocetak":8,"kraj":12,"dan":"ponedjeljak"},{"message":"Uspješno dodana aktivnost!"}
-POST,/aktivnost,{"naziv":"RMA","tip":"predavanje","pocetak":7,"kraj":11,"dan":"utorak"},{"message":"Uspješno dodana aktivnost!"}
-POST,/aktivnost,{"naziv":"RMA","tip":"vjezba","pocetak":15,"kraj":17,"dan":"utorak"},{"message":"Uspješno dodana aktivnost!"}
-POST,/aktivnost,{"naziv":"VVS","tip":"predavanje","pocetak":12,"kraj":15,"dan":"cetvrtak"},{"message":"Uspješno dodana aktivnost!"}
-POST,/aktivnost,{"naziv":"VVS","tip":"vjezba","pocetak":10.5,"kraj":12,"dan":"petak"},{"message":"Uspješno dodana aktivnost!"}
-GET,/aktivnosti,null,[{"naziv":"WT","tip":"vjezba","pocetak":8,"kraj":12,"dan":"ponedjeljak"},{"naziv":"RMA","tip":"predavanje","pocetak":7,"kraj":11,"dan":"utorak"},{"naziv":"RMA","tip":"vjezba","pocetak":15,"kraj":17,"dan":"utorak"},{"naziv":"VVS","tip":"predavanje","pocetak":12,"kraj":15,"dan":"cetvrtak"},{"naziv":"VVS","tip":"vjezba","pocetak":10.5,"kraj":12,"dan":"petak"}]
-POST,/aktivnosti,{"naziv":"OIS","tip":"vjezba","pocetak":11,"kraj":13,"dan":"petak"},{"message":"Aktivnost nije validna!"}
+POST,/aktivnost,{"naziv":"WT","tip":"Vježba","početak":8,"kraj":12,"dan":"Ponedjeljak"},{"message":"Uspješno dodana aktivnost!"}
+POST,/aktivnost,{"naziv":"RMA","tip":"Predavanje","početak":7,"kraj":11,"dan":"Utorak"},{"message":"Uspješno dodana aktivnost!"}
+POST,/aktivnost,{"naziv":"RMA","tip":"Vježba","početak":15,"kraj":17,"dan":"Utorak"},{"message":"Uspješno dodana aktivnost!"}
+POST,/aktivnost,{"naziv":"VVS","tip":"Predavanje","početak":12,"kraj":15,"dan":"Četvrtak"},{"message":"Uspješno dodana aktivnost!"}
+POST,/aktivnost,{"naziv":"VVS","tip":"Vježba","početak":10.5,"kraj":12,"dan":"Petak"},{"message":"Uspješno dodana aktivnost!"}
+GET,/aktivnosti,null,[{"naziv":"WT","tip":"Vježba","početak":8,"kraj":12,"dan":"Ponedjeljak"},{"naziv":"RMA","tip":"Predavanje","početak":7,"kraj":11,"dan":"Utorak"},{"naziv":"RMA","tip":"Vježba","početak":15,"kraj":17,"dan":"Utorak"},{"naziv":"VVS","tip":"Predavanje","početak":12,"kraj":15,"dan":"Četvrtak"},{"naziv":"VVS","tip":"Vježba","početak":10.5,"kraj":12,"dan":"Petak"}]
+POST,/aktivnosti,{"naziv":"OIS","tip":"Vježba","početak":11,"kraj":13,"dan":"Petak"},{"message":"Aktivnost nije validna!"}
 DELETE,/aktivnost/VVS,null,{"message":"Uspješno obrisana aktivnost!"}
 DELETE,/aktivnost/VVS,null,{"message":"Greška - aktivnost nije obrisana!"}
-GET,/aktivnosti,null,[{"naziv":"WT","tip":"vjezba","pocetak":8,"kraj":12,"dan":"ponedjeljak"},{"naziv":"RMA","tip":"predavanje","pocetak":7,"kraj":11,"dan":"utorak"},{"naziv":"RMA","tip":"vjezba","pocetak":15,"kraj":17,"dan":"utorak"}]
+GET,/aktivnosti,null,[{"naziv":"WT","tip":"Vježba","početak":8,"kraj":12,"dan":"Ponedjeljak"},{"naziv":"RMA","tip":"Predavanje","početak":7,"kraj":11,"dan":"Utorak"},{"naziv":"RMA","tip":"Vježba","početak":15,"kraj":17,"dan":"Utorak"}]
 POST,/predmet,{"naziv":"VVS"},{"message":"Uspješno dodan predmet!"}
-GET,/predmet/RMA/aktivnost,null,[{"naziv":"RMA","tip":"predavanje","pocetak":7,"kraj":11,"dan":"utorak"},{"naziv":"RMA","tip":"vjezba","pocetak":15,"kraj":17,"dan":"utorak"}]
+GET,/predmet/RMA/aktivnost,null,[{"naziv":"RMA","tip":"Predavanje","početak":7,"kraj":11,"dan":"Utorak"},{"naziv":"RMA","tip":"Vježba","početak":15,"kraj":17,"dan":"Utorak"}]
 GET,/predmet/VVS/aktivnost,null,[]
 GET,/predmeti,null,[{"naziv":"RMA"},{"naziv":"VVS"}]
 POST,/predmet,{"naziv":"OOI"},{"message":"Uspješno dodan predmet!"}
