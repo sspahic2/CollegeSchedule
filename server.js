@@ -115,7 +115,8 @@ app.post('/aktivnost', function(req, res) {
             if(aktivnost.dan == body.dan) {
                 if(aktivnost.pocetak <= body.pocetak && body.pocetak < aktivnost.kraj ||            //Ako se pocetak nove aktivnosti nalazi izmedju pocetka i kraja druge aktivnosti
                     body.kraj > aktivnost.pocetak && body.kraj <= aktivnost.kraj ||                 //Ako se kraj nove aktivnosti nalazi izmedju pocetka i kraja druge aktivnosti
-                    body.pocetak <= aktivnost.pocetak && aktivnost.pocetak < body.kraj) {           //Ako se pocetak druge aktivnosti nalazi izmedju pocetka i kraja nove aktivnosti
+                    body.pocetak <= aktivnost.pocetak && aktivnost.pocetak < body.kraj ||           //Ako se pocetak druge aktivnosti nalazi izmedju pocetka i kraja nove aktivnosti
+                    !(body.pocetak > 0  && body.pocetak < 24) || !(body.kraj > 0  && body.kraj < 24)) {                                                                             
                         res.json({message:"Aktivnost nije validna!"});
                         ok = false
                         return;
