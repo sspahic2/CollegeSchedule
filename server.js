@@ -3,6 +3,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
+const db = require('./spirala4/db.js');
 
 //Prima se samo json input, svi ostali izbacuju error html
 app.use(bodyParser.json({
@@ -23,29 +24,29 @@ app.use(bodyParser.urlencoded({extended: true}));
 //**
     //GET
 //**
-app.get('/raspored.html', function(req, res) {
+app.get('/v1/raspored.html', function(req, res) {
     res.sendFile('./spirala1/zadatak1/raspored.html', {root: __dirname});
 });
-app.get('/aktivnost.html', function(req, res) {
+app.get('/v1/aktivnost.html', function(req, res) {
     res.sendFile('./spirala1/zadatak2/aktivnost.html', {root: __dirname});
 });
-app.get('/planiranjeNastavnik.html', function(req, res) {
+app.get('/v1/planiranjeNastavnik.html', function(req, res) {
     res.sendFile('./spirala1/zadatak3/planiranjeNastavnik.html', {root: __dirname});
 });
-app.get('/podaciStudent.html', function(req, res) {
+app.get('/v1/podaciStudent.html', function(req, res) {
     res.sendFile('./spirala1/zadatak4/podaciStudent.html', {root: __dirname});
 });
-app.get('/spirala2raspored.html', function(req, res) {
+app.get('/v1/spirala2raspored.html', function(req, res) {
     res.sendFile('./spirala2/zadatak1/spirala2rasporedi.html', {root: __dirname});
 });
-app.get('/test.html', function(req, res) {
+app.get('/v1/test.html', function(req, res) {
     res.sendFile('./spirala2/zadatak2/test.html', {root: __dirname});
 });
-app.get('/unosRasporeda.html', function(req, res) {
+app.get('/v1/unosRasporeda.html', function(req, res) {
     res.sendFile('unosRasporeda.html', {root: __dirname});
 });
 
-app.get('/predmeti', function(req, res) {
+app.get('/v1/predmeti', function(req, res) {
     fs.readFile( __dirname + '/predmeti.txt', function(err, data) {
         if(err) throw err;
         let JSONtext = toJSONPredmet(data.toString('utf8'));
@@ -53,7 +54,7 @@ app.get('/predmeti', function(req, res) {
     });
 });
 
-app.get('/aktivnosti', function(req, res) {
+app.get('/v1/aktivnosti', function(req, res) {
     fs.readFile(__dirname + '/aktivnosti.txt', function(err, data) {
         if(err) throw err;
 
@@ -62,7 +63,7 @@ app.get('/aktivnosti', function(req, res) {
     });
 });
 
-app.get('/predmet/:naziv/aktivnost', function(req, res) {
+app.get('/v1/predmet/:naziv/aktivnost', function(req, res) {
     fs.readFile(__dirname + '/aktivnosti.txt', function(err, data) {
         if(err) throw err;
 
@@ -75,7 +76,7 @@ app.get('/predmet/:naziv/aktivnost', function(req, res) {
     //POST
 //**
 
-app.post('/predmet', function(req, res) {
+app.post('/v1/predmet', function(req, res) {
     let body = req.body;
         fs.readFile(__dirname + '/predmeti.txt', function(err, data) {
             if(err) throw err;
@@ -97,7 +98,7 @@ app.post('/predmet', function(req, res) {
         });
 });
 
-app.post('/aktivnost', function(req, res) {
+app.post('/v1/aktivnost', function(req, res) {
     let body = req.body;
     let ok = true;
 
@@ -137,7 +138,7 @@ app.post('/aktivnost', function(req, res) {
     //DELETE
 //**
 
-app.delete('/aktivnost/:naziv', function(req, res) {
+app.delete('/v1/aktivnost/:naziv', function(req, res) {
     var JSONtext;
     let naziv = req.params.naziv
     fs.readFile(__dirname + "/aktivnosti.txt", function(err, data) {
@@ -165,7 +166,7 @@ app.delete('/aktivnost/:naziv', function(req, res) {
 
 });
 
-app.delete('/predmet/:naziv', function(req, res) {
+app.delete('/v1/predmet/:naziv', function(req, res) {
     var JSONtext;
     let naziv = req.params.naziv
     fs.readFile(__dirname + "/predmeti.txt", function(err, data) {
@@ -192,7 +193,7 @@ app.delete('/predmet/:naziv', function(req, res) {
     });
 });
 
-app.delete('/all', function(req, res) {
+app.delete('/v1/all', function(req, res) {
     fs.readFile(__dirname + "/aktivnosti.txt", function(err, data) {
         if(err) {
             res.json({message: "Greška - sadržaj datoteka nije moguće obrisati!"});
