@@ -72,6 +72,180 @@ app.get('/v1/predmet/:naziv/aktivnost', function(req, res) {
     });
 });
 
+app.get('/v2/predmeti', function(req, res) {
+    var returnData = [];
+    db.predmet.findAll().then(function(elements){
+        (elements).forEach(element => {
+            returnData.push(element.dataValues); 
+        });
+        res.json(returnData);
+        return;
+    });
+});
+
+app.get('/v2/predmet/:naziv', function(req, res) {
+    let naziv = req.params.naziv;
+    db.predmet.findOne({where:{naziv:naziv}}).then(function(data) {
+        if(data) {
+            res.json(data.dataValues);
+        }
+        else {
+            res.json({});
+        }
+    });
+});
+
+app.get('/v2/predmet/:naziv/aktivnosti', function(req, res) {
+    db.predmet.findOne({where:{naziv:req.params.naziv}}).then(function(data) {
+        let resultData = [];
+        data.getAktivnostiIzPredmeta().then(function(aktivnosti) {
+            aktivnosti.forEach(element => {
+                resultData.push(element.dataValues);
+            });
+            res.json(resultData);
+        });
+    });
+});
+
+app.get('/v2/predmet/:naziv/grupe', function(req, res) {
+    db.predmet.findOne({where:{naziv:req.params.naziv}}).then(function(data) {
+        let resultData = [];
+        data.getGrupeNaPredmetu().then(function(grupe) {
+            grupe.forEach(element => {
+                resultData.push(element.dataValues);
+            });
+            res.json(resultData);
+        });
+    });
+});
+
+app.get('/v2/grupe', function(req, res) {
+    db.grupa.findAll().then(function(elements) {
+        let returnData = [];
+        elements.forEach(element => {
+            returnData.push(element.dataValues);
+        });
+        res.json(returnData);
+    });
+});
+
+app.get('/v2/grupa/:naziv', function(req, res) {
+    db.grupa.findOne({where:{naziv:req.params.naziv}}).then(function(data) {
+        if(data) {
+            res.json(data.dataValues);
+        }
+        else {
+            res.json({});
+        }
+    });
+});
+
+app.get('/v2/grupa/:naziv/aktivnosti', function(req, res) {
+    db.grupa.findOne({where:{naziv:req.params.naziv}}).then(function(data) {
+        data.getAktivnostiGrupe().then(function(elements) {
+            let returnData = [];
+            elements.forEach(element => {
+                returnData.push(element.dataValues);
+            });
+            res.json(returnData);
+        });
+    });
+});
+
+app.get('/v2/grupe/studenti', function(req, res) {
+    db.grupa.findAll().then(function(elements) {
+        let grupe = [];
+        elements.forEach(grupa => {
+            let studenti = [];
+            grupa.getStudenti().then(function(data) {
+                data.forEach(student => {
+                    studenti.push(student.dataValues);
+                });
+                grupe.push({grupa:grupa.dataValues,studenti:studenti});
+            });
+
+        });
+        res.json(grupe);
+    });
+});
+
+app.get('/v2/dani', function(req, res) {
+    db.dan.findAll().then(function(elements) {
+        let returnData = [];
+        elements.forEach(dan => {
+            returnData.push(dan.dataValues);
+        });
+        res.json(returnData);
+    });
+});
+
+app.get('/v2/dan/:naziv', function(req, res) {
+    db.dan.findOne({where:{naziv:req.params.naziv}}).then(function(data) {
+        if(data) {
+            res.json(data.dataValues);
+        }
+        else {
+            res.json({});
+        }
+    });
+});
+
+app.get('/v2/dan/:naziv/aktivnosti', function(req, res) {
+    db.dan.findOne({where:{naziv:req.params.naziv}}).then(function(data) {
+        let returnData = [];
+        data.getAktivnostiUDanu().then(function(elements) {
+            elements.forEach(aktivnost => {
+                returnData.push(aktivnost.dataValues);
+            });
+            res.json(returnData);
+        });
+    });
+});
+
+app.get('/v2/tipovi', function(req, res) {
+    db.tip.findAll().then(function(elements) {
+        let returnData = [];
+        elements.forEach(tip => {
+            returnData.push(tip.dataValues);
+        });
+        res.json(returnData);
+    });
+});
+
+app.get('/v2/tip/:naziv', function(req, res) {
+    db.tip.findOne({where:{naziv:req.params.naziv}}.then(function(data) {
+        if(data) {
+            res.json(data.dataValues);
+        }
+        else {
+            res.json({});
+        }
+    });
+});
+
+app.get('/v2/tip/:naziv/aktivnosti', function(req, res) {
+    db.tip.findOne({where:{naziv:req.params.naziv}}).then(function(data) {
+        let returnData = [];
+        data.getAktivnostiUDanu().then(function(elements) {
+            elements.forEach(aktivnost => {
+                returnData.push(aktivnost.dataValues);
+            });
+            res.json(returnData);
+        });
+    });
+});
+
+app.get('/v2/aktivnosti', function(req, res) {
+    db.aktivnost.findAll().then(function(elements) {
+        let returnData = [];
+
+        elements.forEach(aktivnost => {
+            returnData.push(aktivnost.dataValues);
+        });
+        res.json(returnData);
+    });
+});
+
 //**
     //POST
 //**
