@@ -22,6 +22,11 @@ app.use(express.static(path.join(__dirname, 'spirala2/zadatak2')));
 app.use(express.static(__dirname));
 app.use(bodyParser.urlencoded({extended: true}));
 
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    next();
+  });
+
 //**
     //GET
 //**
