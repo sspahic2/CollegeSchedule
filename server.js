@@ -398,13 +398,18 @@ app.post('/v2/student', function(req, res) {
         else {
             db.student.findOne({where:{index:req.body.index}}).then(function(element){
                 if(element) {
-                    res.json({message:"Student sa tim indexom već postoji!"});
+                    res.json({message:"Student " + req.body.naziv + " nije kreiran jer postoji student " + element.naziv + " sa istim indeksom " + element.index});
                     return;
                 }
                 else {
-                    db.student.create({naziv:req.body.naziv, index:req.body.index}).then(function(output) {
-                        res.json({message:"Student uspješno kreiran!"});
-                        return;
+                    db.grupa.findOne({where:{naziv:req.body.grupa.naziv}}).then(function(grupa) {
+                        if(grupa) {
+                            db.student.create({naziv:req.body.naziv, index:req.body.index}).then(function(output) {
+                                output.addGrupe([grupa]);
+                                res.json({message:"Student uspješno kreiran!"});
+                                return;
+                            });
+                        }
                     });
                 }
             });
@@ -553,6 +558,17 @@ app.delete('/v1/all', function(req, res) {
 
 app.delete('/v2/predmet/:id', function(req, res) {
     db.predmet.findOne({where:{id:req.params.id}}).then(function(predmet) {
+        if(predmet) {
+            predmet.destroy();
+            res.json({message:"Uspješno obrisan predmet!"});
+            return;
+        }
+        res.json({message:"Predmet nije validan!"});
+    });
+});
+
+app.delete('/v2/predmet/:naziv', function(req, res) {
+    db.predmet.findOne({where:{naziv:req.params.naziv}}).then(function(predmet) {
         if(predmet) {
             predmet.destroy();
             res.json({message:"Uspješno obrisan predmet!"});
