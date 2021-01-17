@@ -7,23 +7,16 @@
 <body onload="getData()">
     <form style="float: left;" id="forma">
         <label for="naziv">Naziv: <input type="text" name="naziv" id="naziv"></label> <br>
+        <label for="predmet">Predmet: <input type="text" name="predmet" id="predmet"></label> <br>
+        <label for="grupa">Grupa: <select name="grupa" id="grupa"></select></label>
         <label for="tip"> Tip:
             <select name="tip" id="tip">
-                <option value="Vježba">Vje&zcaron;ba</option>
-                <option value="Predavanje">Predavanje</option>
             </select>
         </label> <br>
         <label for="pocetak">Vrijeme po&ccaron;etka: <input type="time" name="pocetak" id="pocetak"> </label> <br>
         <label for="kraj">Vrijeme kraja: <input type="time" name="kraj" id="kraj"> </label> <br>
         <label for="dan">Dan: 
             <select name="dan" id="dan">
-                <option value="Ponedjeljak">Ponedjeljak</option>
-                <option value="Utorak">Utorak</option>
-                <option value="Srijeda">Srijeda</option>
-                <option value="Četvrtak">&Ccaron;etvrtak</option>
-                <option value="Petak">Petak</option>
-                <option value="Subota">Subota</option>
-                <option value="Nedjelja">Nedjelja</option>
             </select>
         </label> <br>
         <input onclick="sendData()" type="button" value="Unos aktivnosti">
@@ -31,6 +24,6 @@
     <div style="float: left;" id="response"></div>
     <div style="float: right; margin: auto;" id="container"></div>
 
-<script src="zadatak4.js"></script>
+<script src="noviZadatak3Spirala4.js"></script>
 </body>
 </html>
